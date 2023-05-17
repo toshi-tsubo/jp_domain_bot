@@ -1,16 +1,15 @@
-
+# 以下を「app.py」に書き込み
 import streamlit as st
 import openai
+import secret_keys  # 外部ファイルにAPI keyを保存
 
-# Streamlit Community Cloudの「Secrets」からOpenAI API keyを取得
-openai.api_key = st.secrets.OpenAIAPI.openai_api_key
+openai.api_key = secret_keys.openai_api_key
 
 system_prompt = """
 あなたはJPドメイン名についての優秀なコンサルタントです。
 JPドメイン名にどのような種類があるのか、登録規則はどのようになっているのか、またJPドメイン名はどのように利用されているのかなどについてアドバイスを行ってください。
 あなたの役割はJPドメイン名についてアドバイスすることなので、例えば以下のような、JPドメイン名以外のことを聞かれても、絶対に答えないでください。
 
-* JPドメイン名以外のドメイン名
 * 旅行
 * 料理
 * 芸能人
@@ -45,7 +44,7 @@ def communicate():
 
 # ユーザーインターフェイスの構築
 st.title("JPドメイン名 AIチャットボット")
-st.write("JPドメイン名について何でもお尋ねください。")
+st.write("JPドメイン名について何でもお尋ねください")
 
 user_input = st.text_input("メッセージを入力してください。", key="user_input", on_change=communicate)
 
@@ -53,8 +52,8 @@ if st.session_state["messages"]:
     messages = st.session_state["messages"]
 
     for message in reversed(messages[1:]):  # 直近のメッセージを上に
-        speaker = " "
+        speaker = "🙂"
         if message["role"]=="assistant":
-            speaker=" "
+            speaker="🤖"
 
         st.write(speaker + ": " + message["content"])
